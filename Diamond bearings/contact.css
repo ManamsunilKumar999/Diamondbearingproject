@@ -1,0 +1,343 @@
+/* ================= GLOBAL RESETS & STYLING WRAPPERS ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", "Poppins", sans-serif;
+  background: #dcdedd;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ================= TOP HERO BANNER LAYER SYSTEM ================= */
+.contact-hero-banner {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-slider-track {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.contact-slider-track .slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity 1.2s ease-in-out, transform 1.2s ease-out;
+}
+
+.contact-slider-track .slide.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.contact-light-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(11, 77, 125, 0.2);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.contact-hero-title-container {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+}
+
+.contact-hero-title-container h1 {
+  font-size: 64px;
+   margin-top: 70px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-shadow: 0 4px 15px rgba(11, 42, 74, 0.4);
+}
+
+/* ================= THE OVERALL SECTION CONTAINER WITH FIXED BACKGROUND IMAGE ================= */
+.contact-form-section {
+  width: 100%;
+  padding: 80px 20px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  
+/* FIXED POSITION BACKGROUND ATTACHMENT MAP FOR PARALLAX SCROLL LOOKS */
+background: linear-gradient(rgba(220, 222, 221, 0.8), rgba(220, 222, 221, 0.9)), 
+            url('pics/1.jpeg') center no-repeat;
+background-size: cover; /* 👈 This forces the image to stretch and cover the entire area */
+ /* Ensures the parallax/fixed scrolling effect works */ /* Keeps image static at high level */
+}
+
+.contact-main-grid {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 60px;
+}
+
+/* --- Left Side: Circular Slider Frame --- */
+.contact-visual-showcase {
+  flex: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-slider-frame {
+  position: relative;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border: 4px solid #ffffff;
+  box-shadow: 0 20px 45px rgba(11, 42, 74, 0.12);
+  z-index: 1;
+}
+
+.circle-slider-frame .showcase-slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 2;
+}
+
+.circle-slider-frame .showcase-slide.active {
+  opacity: 1;
+}
+
+/* ================= ROTATING SHINING NEON-BORDER CARD CONTAINER ================= */
+.form-container-card {
+  flex: 1.1;
+  background: #07182e; 
+  padding: 0;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
+  display: flex;
+  place-content: center;
+  place-items: center;
+  overflow: hidden;
+}
+
+/* Light track ray animation engine */
+.form-container-card::before {
+  content: '';
+  position: absolute;
+  width: 180px;
+  background-image: linear-gradient(180deg, rgb(0, 183, 255), rgb(212, 175, 55));
+  height: 140%;
+  animation: rotBGimg 4s linear infinite;
+  transition: all 0.2s linear;
+  z-index: 1;
+}
+
+@keyframes rotBGimg {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Inner form container content mask (Plain Solid Background Color) */
+.form-inner-content-mask {
+  position: relative;
+  width: calc(100% - 8px); 
+  margin: 4px;
+  background-color: #ffffff; /* Reverted cleanly to solid background color fill */
+  padding: 45px 50px;
+  border-radius: 16px;
+  z-index: 2;
+}
+
+.form-inner-content-mask h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0b2a4a;
+  margin-bottom: 12px;
+}
+
+.form-inner-content-mask p {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 35px;
+}
+
+/* ================= ANIMATED INPUT FIELD CONTROLS ================= */
+.input-container {
+  position: relative;
+  margin: 25px 0;
+  width: 100%;
+}
+
+.input-field {
+  display: block;
+  width: 100%;
+  padding: 12px 10px 8px 5px;
+  font-size: 16px;
+  color: #1e293b;
+  border: none;
+  border-bottom: 2px solid #cbd5e1;
+  outline: none;
+  background-color: transparent;
+  transition: border-color 0.3s ease;
+}
+
+.textarea-field {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.input-label {
+  position: absolute;
+  top: 12px;
+  left: 5px;
+  font-size: 15px;
+  color: #94a3b8;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.input-highlight {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background-color: #0c66ed;
+  transition: all 0.3s ease;
+}
+
+.input-field:focus ~ .input-label,
+.input-field:not(:placeholder-shown) ~ .input-label {
+  top: -15px;
+  font-size: 12px;
+  color: #0c66ed;
+  font-weight: 600;
+}
+
+.input-field:focus ~ .input-highlight {
+  width: 100%;
+}
+
+/* ================= MODERN SLIDING GRADIENT SUBMIT BUTTON ================= */
+.button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.animated-submit-btn {
+  position: relative;
+  overflow: hidden;
+  height: 3rem;
+  width: auto;
+  min-width: 180px; 
+  padding: 0 2.5rem;
+  border-radius: 0.6rem; 
+  background: #171717; 
+  color: #ffffff;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-weight: bold;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.animated-submit-btn .button-content {
+  position: relative;
+  z-index: 2;
+}
+
+.animated-submit-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    82.3deg,
+    rgba(12, 102, 237, 1) 10.8%,
+    rgba(212, 175, 55, 1) 94.3%
+  );
+  transition: transform 0.475s ease-in-out;
+  z-index: 1;
+}
+
+.animated-submit-btn:hover::before {
+  transform: scaleX(1);
+}
+
+.animated-submit-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ================= MOBILE LAYOUT RESPONSIVENESS ================= */
+@media (max-width: 1024px) {
+  .contact-main-grid {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .contact-visual-showcase {
+    width: 100%;
+    padding-bottom: 10px;
+  }
+  .form-container-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-hero-banner {
+    height: 260px;
+  }
+  .contact-hero-title-container h1 {
+    font-size: 42px;
+  }
+  .circle-slider-frame {
+    width: 280px;
+    height: 280px;
+  }
+  .contact-form-section {
+    padding: 40px 15px;
+    background-attachment: scroll; /* Disables parallax locking on phone screens for smoother scrolling */
+  }
+  .form-inner-content-mask {
+    padding: 35px 24px;
+  }
+}

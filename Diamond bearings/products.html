@@ -1,0 +1,514 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Diamond Bearing | Precision In Motion</title>
+<link rel="stylesheet" href="styleheader.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="footer.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="icon" type="image/png" href="pics/favicon.png">
+<link rel="shortcut icon" href="pics/favicon.png">
+<link rel="apple-touch-icon" href="pics/favicon.png">
+</head>
+
+<body>
+
+<header class="header">
+
+<div class="nav">
+
+<a href="products.html" class="logo">
+
+<img src="pics/logo.png" alt="Diamond Bearing">
+
+<div class="logo-text">
+<h2>DIAMOND BEARING</h2>
+<p>Precision In Motion</p>
+</div>
+
+</a>
+
+<ul class="menu">
+
+<li><a href="index.html" >Home</a></li>
+
+<li><a href="products.html "class="active">Products</a></li>
+
+<li><a href="about.html">About</a></li>
+
+<li><a href="contact.html">Contact</a></li>
+
+</ul>
+<div class="menu-toggle">
+    <i class="fas fa-bars"></i>
+</div>
+</div>
+
+</header>
+<!-- ===== STICKY SEARCH + FILTER (won't scroll away) ===== -->
+<div class="header-section">
+    <h1 class="section-title">Industrial Products</h1>
+    <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-bar" id="searchInput" placeholder="Search products (e.g. 'Wire Mesh', 'Gaskets')...">
+    </div>
+    <div class="search-stats" id="searchStats">Showing 0 products</div>
+    <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">All Products</button>
+        <button class="filter-btn" data-filter="specialized">Specialized</button>
+        <button class="filter-btn" data-filter="general">General</button>
+    </div>
+</div>
+
+<!-- ===== PRODUCT GRID ===== -->
+<div class="product-grid" id="productGrid"></div>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="productModal">
+       <div class="modal-content">
+           <span class="close-modal" onclick="closeModal()">&times;</span>
+        
+            <div class="modal-image-col">
+
+            <div class="modal-image-wrapper" id="flipCard">
+
+            <div class="flip-inner">
+
+            <div class="flip-front">
+                <img id="modalImgFront" src="" alt="Front Image" crossorigin="anonymous">
+            </div>
+
+            <div class="flip-back">
+                <img id="modalImgBack" src="" alt="Back Image" crossorigin="anonymous">
+            </div>
+
+        </div>
+</div>
+        </div>
+        <div class="modal-details-col">
+            <h2 id="modalTitle" style="font-size:1.8rem; margin-bottom:5px;">Title</h2>
+            <span class="modal-tag" id="modalTag">CATEGORY</span>
+            <p id="modalDesc" style="margin: 15px 0 10px; padding-left: 32px; color: #2d3e53;"></p>
+            <h4 style="margin-top: 20px;  padding-left: 32px;">Key Features:</h4>
+            <ul class="key-features-list" id="modalFeatures"></ul>
+            <h4 style="margin-top: 12px; padding-left: 32px;">Applications:</h4>
+            <p id="modalApps" style="color: #3a4e62; padding-left: 32px; font-size: 0.95rem; background: #f6f9fc; padding: 12px; border-radius: 16px;"></p>
+            <div class="modal-actions">
+                <button class="btn-discover" onclick="requestQuote()">📋 Request Quote</button>
+                <button class="btn-pdf" id="pdfBtn" onclick="downloadProductPDF()">
+                    <i class="fas fa-file-pdf"></i> Download PDF
+                </button>
+            </div>
+            <div class="share-section">
+                <span class="share-label">🔗 Share this Product:</span>
+                <div class="share-buttons-container">
+                    <a href="#" id="shareWa"    target="_blank" class="share-btn btn-whatsapp"  title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" id="shareFb"    target="_blank" class="share-btn btn-facebook"  title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" id="shareInsta" class="share-btn btn-instagram" title="Instagram" onclick="shareToInsta(event)"><i class="fab fa-instagram"></i></a>
+                    <a href="#" id="shareMail"  class="share-btn btn-gmail"     title="Email"><i class="fas fa-envelope"></i></a>
+                    <button id="shareCopy" class="share-btn btn-copy" title="Copy link" onclick="copyLink()"><i class="fas fa-link"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toast-msg">✅ Link Copied!</div>
+
+<script>
+    const products = [
+        { id: 1,  title: "Stainless Steel Perforated Sheets",     category: "specialized", imageFront: "Specialized Products/Stainless Steel Perforated Sheets.jpeg",      imageBack: "Specialized Products/Stainless Steel Perforated Sheets1.jpeg",  desc: "High-quality stainless steel perforated sheets for filtration, screening, and architectural applications. Available in various hole patterns and sizes.", features: ["Various hole patterns","Custom sizes available","Corrosion resistant","High strength","Easy to clean and maintain"], apps: "Chemical processing plants, architectural designs, machinery guards, filtration systems, decorative panels." },
+        { id: 2,  title: "Stainless Steel Wire Mesh (304 & 316)", category: "specialized", imageFront: "Specialized Products/Stainless Steel Wire Mesh.webp",                imageBack: "Specialized Products/Stainless Steel Wire Mesh1.jpeg",            desc: "Premium stainless steel wire mesh available in grades 304 & 316 with various weave patterns for industrial filtration.", features: ["304 & 316 grades","Various weave types","High temperature resistance","Custom sizes","Corrosion resistant"], apps: "Chemical processing, food industry, mining operations, pharmaceutical filtration, water treatment plants." },
+        { id: 3,  title: "PTFE Teflon Rods & Sheets",             category: "specialized", imageFront: "Specialized Products/PTFE Teflon Rods & Sheets.jpeg",               imageBack: "Specialized Products/PTFE Teflon Rods & Sheets1.jpeg",           desc: "PTFE Teflon materials offering excellent chemical resistance, low friction properties, and non-stick surface.", features: ["Chemical resistant","Low friction coefficient","Non-stick surface","High temperature tolerance","Electrical insulator"], apps: "Chemical processing equipment, food industry machinery, bearing applications, seals, gaskets, electrical insulation." },
+        { id: 4,  title: "Filters (Customized Fabrication)",      category: "specialized", imageFront: "Specialized Products/Filters(Customized Fabrication).webp",          imageBack: "Specialized Products/Filters(Customized Fabrication)1.jpeg",    desc: "Custom-designed filtration solutions tailored to specific industrial requirements with various media options.", features: ["Custom designs","Various media options","High efficiency","Durable construction","Easy maintenance"], apps: "Water treatment plants, chemical processing, pharmaceuticals manufacturing, food & beverage industry, oil & gas." },
+        { id: 5,  title: "SS SHIM (304 & 316)",                   category: "specialized", imageFront: "Specialized Products/SS Shim.jpeg",                                 imageBack: "Specialized Products/SS Shim1.jpeg",                             desc: "Stainless steel shim stock for precision spacing, alignment, and adjustment in industrial machinery.", features: ["Precision thickness","Corrosion resistant","Easy to cut and shape","Various grades","High strength"], apps: "Machinery alignment, automotive assembly, aerospace components, precision equipment, tool making." },
+        { id: 6,  title: "Motor Terminal Plates",                 category: "specialized", imageFront: "Specialized Products/Motor Terminal plates.jpg",                    imageBack: "Specialized Products/Motor Terminal Plates.jpeg",                desc: "Insulated terminal plates for electric motor connections, ensuring safe and reliable electrical installations.", features: ["Insulated design","Various sizes","Durable materials","Easy installation","Heat resistant"], apps: "Electric motor manufacturing, repair workshops, electrical installations, industrial equipment assembly." },
+        { id: 7,  title: "Hilam Rods & Sheets",                   category: "specialized", imageFront: "Specialized Products/Hilam Rods & sheets.jpg",                      imageBack: "Specialized Products/Hilam Rods & sheets1.jpg",                  desc: "Hilam rods and sheets for specialized industrial applications requiring specific material properties.", features: ["High strength","Custom sizes","Durable construction","Specialized applications","Corrosion resistant"], apps: "Specialized machinery components, industrial fabrication, tool making, specialized equipment." },
+        { id: 8,  title: "Container Seal Locks",                  category: "specialized", imageFront: "Specialized Products/Container Seals Locks.jpg",                    imageBack: "Specialized Products/Container Seals Locks1.jpeg",               desc: "High-security container seals for shipping and logistics to ensure cargo integrity during transit.", features: ["Tamper-evident design","ISO compliant","Unique numbering","Heavy-duty construction","Easy to apply"], apps: "Shipping containers, truck cargo security, logistics companies, warehouse management, cargo tracking." },
+        { id: 9,  title: "Gland Packing Rope",                    category: "specialized", imageFront: "Specialized Products/Gland Packing Rope.png",                       imageBack: "Specialized Products/Gland Packing Rope1.webp",                  desc: "Gland packing ropes for sealing applications in pumps, valves, and rotating equipment.", features: ["High temperature resistant","Chemical resistant","Flexible material","Long service life","Self-lubricating"], apps: "Pump sealing applications, valve stems, industrial equipment, fluid handling systems, marine applications." },
+        { id: 10, title: "Gasket Sheets",                         category: "specialized", imageFront: "Specialized Products/Gasket Sheets.webp",                           imageBack: "Specialized Products/Gasket Sheets1.jpeg",                       desc: "Various gasket sheet materials for sealing applications in industrial equipment and piping.", features: ["Various materials","Custom thickness","Pressure resistant","Chemical resistant","Temperature stable"], apps: "Pipe flanges, equipment covers, machinery seals, industrial piping systems, automotive gaskets." },
+        { id: 11, title: "Motor Fans",                            category: "specialized", imageFront: "Specialized Products/Motor Fans.jpeg",                              imageBack: "Specialized Products/Motor Fans1.jpeg",                          desc: "Industrial motor fans for cooling and ventilation applications in electrical equipment.", features: ["Various sizes","Balanced design","Efficient airflow","Durable construction","Low noise operation"], apps: "Motor cooling systems, ventilation equipment, industrial machinery, HVAC systems, electrical cabinets." },
+        { id: 12, title: "Motor Rewinding Materials",             category: "specialized", imageFront: "Specialized Products/Motor Rewinding Materials.jpeg",               imageBack: "Specialized Products/Motor Rewinding Materials1.jpeg",           desc: "Complete range of materials for motor rewinding and electrical repair applications.", features: ["High-quality insulation","Various wire gauges","Heat resistant","Durable","Easy to work with"], apps: "Electric motor repair, generator maintenance, transformer winding, electrical repairs, coil winding." },
+        { id: 13, title: "Bearings",                              category: "general",     imageFront: "General Products/Bearings.png",                                     imageBack: "General Products/Bearings1.jpg",                                 desc: "Various types of bearings for industrial, automotive, and mechanical applications.", features: ["Multiple types available","High load capacity","Smooth operation","Long service life","Precision made"], apps: "Machinery equipment, automotive industry, industrial equipment, appliances, conveyors, pumps." },
+        { id: 14, title: "Mechanical Seals (All Types)",          category: "general",     imageFront: "General Products/Mechanical Seals (All Types).jpg",                 imageBack: "General Products/Mechanical Seals (All Types)1.jpeg",            desc: "Complete range of mechanical seals for pumps, compressors, and rotating equipment.", features: ["Various designs","Leak-proof","High pressure rating","Long service life","Easy installation"], apps: "Pumps, compressors, mixers, agitators, industrial equipment, marine applications." },
+        { id: 15, title: "Hydraulic Seals",                       category: "general",     imageFront: "General Products/Hydraulic Seals.jpeg",                             imageBack: "General Products/Hydraulic Seals1.jpeg",                         desc: "Hydraulic seals for preventing leakage in hydraulic cylinders and systems.", features: ["High pressure rating","Wear resistant","Various materials","Standard sizes","Temperature resistant"], apps: "Hydraulic cylinders, hydraulic systems, construction equipment, manufacturing machinery." },
+        { id: 16, title: "Oil Seals",                             category: "general",     imageFront: "General Products/Oil Seals.jpg",                                    imageBack: "General Products/Oil Seals1.jpeg",                               desc: "Oil seals for preventing leakage in rotating shafts and mechanical equipment.", features: ["Heat resistant","Chemical resistant","Various sizes","Flexible design","Long service life"], apps: "Automotive engines, industrial machinery, gearboxes, rotating equipment, pumps." },
+        { id: 17, title: "E-Clips (Internal & External)",         category: "general",     imageFront: "General Products/E-Clips (Internal & External).jpeg",               imageBack: "General Products/E-Clips (Internal & External)1.jpeg",          desc: "E-clips for securing components on shafts and pins in mechanical assemblies.", features: ["Internal & external types","Various sizes","Easy installation","Secure retention","Durable"], apps: "Shaft assemblies, automotive components, machinery, industrial equipment, mechanical linkages." },
+        { id: 18, title: "O Rings",                               category: "general",     imageFront: "General Products/O Rings.jpeg",                                     imageBack: "General Products/O Rings1.jpeg",                                 desc: "O-rings for sealing applications in hydraulic, pneumatic, and fluid systems.", features: ["Various materials","Standard sizes","Chemical resistant","Temperature resistant","Pressure rated"], apps: "Hydraulic systems, pneumatic systems, plumbing, automotive, pumps, valves." },
+        { id: 19, title: "Belts (All Types)",                     category: "general",     imageFront: "General Products/Belts (All Types).jpeg",                           imageBack: "General Products/Belts (All Types)1.jpeg",                       desc: "Industrial belts for power transmission and conveying applications.", features: ["V-belts, timing belts","Various sizes","High strength","Wear resistant","Flexible"], apps: "Conveyor systems, power transmission, machinery, automotive, industrial equipment." },
+        { id: 20, title: "PTFE Fabrics",                          category: "general",     imageFront: "General Products/ptfe-fabrics.jpeg",                                imageBack: "General Products/PTFE Fabrics1.jpeg",                            desc: "PTFE fabrics for industrial applications requiring chemical resistance.", features: ["Chemical resistant","Non-stick","High temperature tolerance","Durable","Flexible"], apps: "Conveyor belts, release sheets, industrial linings, packaging, filtration media." },
+        { id: 21, title: "Springs",                               category: "general",     imageFront: "General Products/Springs.webp",                                     imageBack: "General Products/Springs1.jpg",                                  desc: "Various types of springs including tension, compression, and torsion.", features: ["Multiple types","Various sizes","High quality steel","Precise calibration","Durable"], apps: "Automotive suspension, machinery, valves, industrial equipment, appliances, tools." },
+        { id: 22, title: "Sprockets",                             category: "general",     imageFront: "General Products/Sprockets.jpeg",                                   imageBack: "General Products/Sprockets1.jpeg",                               desc: "Sprockets for chain drive systems in industrial and mechanical applications.", features: ["Various pitches","Precision made","Durable materials","Standard sizes","Heat treated"], apps: "Conveyor systems, machinery drives, automotive, power transmission, industrial equipment." },
+        { id: 23, title: "Pulleys",                               category: "general",     imageFront: "General Products/Pulleys.jpeg",                                     imageBack: "General Products/Pulleys1.jpeg",                                 desc: "Pulleys for belt drive systems and mechanical power transmission.", features: ["Various sizes","Grooved design","Balanced construction","Durable materials","Precision bored"], apps: "Power transmission, conveyor systems, machinery, automotive, ventilation systems." },
+        { id: 24, title: "Spiders",                               category: "general",     imageFront: "General Products/Spiders.png",                                      imageBack: "General Products/Spiders1.webp",                                 desc: "Spider couplings for connecting shafts in mechanical power transmission.", features: ["Flexible design","High torque capacity","Easy installation","Vibration damping","Maintenance free"], apps: "Motor-to-pump connections, conveyor systems, machinery, generator connections." },
+        { id: 25, title: "Couplings",                             category: "general",     imageFront: "General Products/Couplings.jpg",                                    imageBack: "General Products/Couplings1.jpg",                                desc: "Shaft couplings for connecting rotating equipment and power transmission.", features: ["Various types","Flexible design","High torque capacity","Easy installation","Precision alignment"], apps: "Motor-to-pump connections, conveyor systems, machinery, generators, compressors." },
+        { id: 26, title: "Spiral Wound Gasket",                   category: "general",     imageFront: "General Products/Spiral Wond Gasket.jpeg",                          imageBack: "General Products/Spiral Wond Gasket1.jpeg",                      desc: "Spiral wound gaskets for high-pressure and high-temperature sealing.", features: ["High pressure rating","Temperature resistant","Flexible design","Reliable sealing","Various sizes"], apps: "Pipe flanges, heat exchangers, pressure vessels, industrial equipment, boiler systems." },
+        { id: 27, title: "Silicon Rubber Sheet",                  category: "general",     imageFront: "General Products/Silicon Rubber Sheet.webp",                        imageBack: "General Products/Silicon Rubber Sheet1.jpg",                     desc: "Silicon rubber sheets for high-temperature sealing and insulation.", features: ["High temperature resistant","Flexible","Weather resistant","Good insulation","Chemical resistant"], apps: "Gaskets, seals, insulation pads, electrical applications, high-temperature sealing." },
+        { id: 28, title: "Rubber Blanket",                        category: "general",     imageFront: "General Products/Rubber Blanket.jpeg",                              imageBack: "General Products/Rubber Blanket1.jpeg",                          desc: "Industrial rubber blankets for protection, insulation, and lining.", features: ["Durable","Flexible","Abrasion resistant","Various thicknesses","Weather proof"], apps: "Protective covers, linings, insulation, industrial applications, construction sites." },
+        { id: 29, title: "Rubber Cork Sheet",                     category: "general",     imageFront: "General Products/Rubber Cork Sheet.jpeg",                           imageBack: "General Products/Rubber Cork Sheet1.jpeg",                       desc: "Rubber cork sheets for vibration damping and sealing applications.", features: ["Vibration damping","Good sealing","Flexible","Durable","Compressible"], apps: "Gaskets, vibration isolation pads, sealing applications, machinery mounts." },
+        { id: 30, title: "Asbestos & Non Asbestos Sheets",        category: "general",     imageFront: "General Products/Asbetos & Non Asbestos Sheets.jpeg",               imageBack: "General Products/Asbetos & Non Asbestos Sheets1.jpeg",          desc: "Asbestos and non-asbestos sheets for high-temperature sealing.", features: ["High temperature resistant","Good sealing","Various grades","Custom sizes","Pressure resistant"], apps: "High-temperature gaskets, boiler seals, industrial equipment, furnace doors." },
+        { id: 31, title: "Asbestos Rope",                         category: "general",     imageFront: "General Products/Asbestos Rope.webp",                               imageBack: "General Products/Asbestos Rope1.jpeg",                           desc: "Asbestos ropes for high-temperature sealing and insulation.", features: ["High temperature resistant","Flexible","Good sealing","Various diameters","Easy to install"], apps: "Boiler seals, furnace doors, high-temperature applications, kiln doors." },
+        { id: 32, title: "Round Asbestos Rope",                   category: "general",     imageFront: "General Products/Round Asbestos Rope.webp",                         imageBack: "General Products/Round Asbestos Rope1.jpeg",                     desc: "Round asbestos ropes for specialized high-temperature sealing.", features: ["Round profile","High temperature resistant","Flexible","Good sealing","Various sizes"], apps: "Specialized high-temperature seals, furnace applications, specialized industrial sealing." },
+        { id: 33, title: "Adhesive Tapes",                        category: "general",     imageFront: "General Products/Adhesive Tapes (Single & Double Sheet).jpeg",      imageBack: "General Products/Adhesive Tapes (Single & Double Sheet)1.jpeg", desc: "Single and double-sided adhesive tapes for industrial and packaging applications.", features: ["Strong adhesion","Various widths","Temperature resistant","Water resistant"], apps: "Packaging, mounting, sealing, electrical insulation, industrial applications." },
+        { id: 34, title: "PTFE Teflon Tape",                      category: "general",     imageFront: "General Products/PTFE Telfon Tape.jpeg",                            imageBack: "General Products/PTFE Telfon Tape1.jpeg",                        desc: "PTFE Teflon tape for sealing pipe threads and threaded connections.", features: ["Chemical resistant","Non-stick","High temperature tolerant","Easy to apply"], apps: "Pipe threading, plumbing, hydraulic connections, industrial piping." },
+        { id: 35, title: "Fiber Tape Roll",                       category: "general",     imageFront: "General Products/Fiber Tape Roll.jpeg",                             imageBack: "General Products/Fiber Tape Roll1.jpeg",                         desc: "Fiber tape rolls for packaging, sealing, and reinforcement applications.", features: ["High strength","Water resistant","Various widths","Easy to tear"], apps: "Packaging, carton sealing, reinforcement, industrial applications." },
+        { id: 36, title: "HDPE / Nylon Rod",                      category: "general",     imageFront: "General Products/HDPE or Nylon Rod.jpeg",                           imageBack: "General Products/HDPE or Nylon Rod1.jpeg",                       desc: "HDPE and nylon rods for machining custom components and industrial applications.", features: ["Easy to machine","Chemical resistant","Various diameters","Durable"], apps: "Machined components, bearings, bushings, industrial parts." },
+        { id: 37, title: "Doctor Blades",                         category: "general",     imageFront: "General Products/Doctor Blades.jpeg",                               imageBack: "General Products/Doctor Blades1.jpeg",                           desc: "Doctor blades for coating, printing, and material handling applications.", features: ["Precise edge","Wear resistant","Various materials","Custom sizes"], apps: "Printing industry, coating applications, material handling." },
+        { id: 38, title: "PTFE Plastic",                          category: "general",     imageFront: "General Products/ptfe-fabrics.jpeg",                                imageBack: "General Products/PTFE Fabrics1.jpeg",                            desc: "PTFE Teflon plastic materials with and without adhesive backing.", features: ["Chemical resistant","Non-stick","Adhesive options","Various thicknesses"], apps: "Release sheets, linings, protective covers, industrial applications." },
+        { id: 39, title: "Stainless Steel Rods",                  category: "general",     imageFront: "General Products/Stainless Steel Rods.jpg",                         imageBack: "General Products/Stainless Steel Rods1.jpg",                     desc: "Stainless steel rods for machining, fabrication, and construction applications.", features: ["Various grades","Different diameters","Corrosion resistant","High strength"], apps: "Machining, fabrication, construction, industrial components." },
+        { id: 40, title: "Brass Round Rods",                      category: "general",     imageFront: "General Products/Brass Round Rods.jpg",                             imageBack: "General Products/Brass Round Rods1.webp",                        desc: "Brass round rods for machining, decorative, and electrical applications.", features: ["Easy to machine","Good conductivity","Corrosion resistant","Various diameters"], apps: "Machined components, decorative items, electrical applications." },
+        { id: 41, title: "Copper Rods",                           category: "general",     imageFront: "General Products/Copper Rods.jpeg",                                 imageBack: "General Products/Copper Rods1.jpeg",                             desc: "Copper rods for electrical, plumbing, and industrial applications.", features: ["Excellent conductivity","Corrosion resistant","Various diameters","Easy to work with"], apps: "Electrical applications, plumbing, heat exchangers, industrial uses." },
+        { id: 42, title: "Glass Tubes",                           category: "general",     imageFront: "General Products/Glass Tubes.jpeg",                                 imageBack: "General Products/Glass Tubes1.jpeg",                             desc: "Glass tubes for laboratory, industrial, and specialty applications.", features: ["Chemically inert","Transparent","Various diameters","Heat resistant"], apps: "Laboratory equipment, industrial viewing ports, specialty applications." },
+        { id: 43, title: "Pneumatic Tube",                        category: "general",     imageFront: "General Products/Pneumatic Tube.jpeg",                              imageBack: "General Products/Pneumatic Tube1.jpeg",                          desc: "Pneumatic tubes for air systems, automation, and material handling.", features: ["Flexible","Pressure resistant","Various sizes","Durable"], apps: "Pneumatic systems, automation, material handling, air lines." },
+        { id: 44, title: "Mica Sheet Flexible",                   category: "general",     imageFront: "General Products/Mica Sheet Flexible.jpeg",                         imageBack: "General Products/Mica Sheet Flexible1.jpeg",                     desc: "Flexible mica sheets for electrical insulation and high-temperature applications.", features: ["High temperature resistant","Excellent insulator","Flexible","Various thicknesses"], apps: "Electrical insulation, heating elements, high-temperature applications." },
+        { id: 45, title: "Mica Paper Roll",                       category: "general",     imageFront: "General Products/Mica Paper Roll.jpeg",                             imageBack: "General Products/Mica Paper Roll1.jpeg",                         desc: "Mica paper rolls for electrical insulation and specialty applications.", features: ["Excellent insulator","High temperature resistant","Flexible","Roll form"], apps: "Electrical insulation, specialty applications, high-temperature uses." },
+        { id: 46, title: "Clear / PVC Rolls",                     category: "general",     imageFront: "General Products/Adhesive Tapes (Single & Double Sheet).jpeg",      imageBack: "General Products/Adhesive Tapes (Single & Double Sheet)1.jpeg", desc: "Clear and PVC rolls for packaging, protection, and industrial applications.", features: ["Transparent options","Various thicknesses","Flexible","Durable"], apps: "Packaging, protective covers, industrial applications, displays." },
+        { id: 47, title: "Grease Fittings",                       category: "general",     imageFront: "General Products/Grease Fittings.jpg",                              imageBack: "General Products/Grease Fittings1.jpeg",                         desc: "Grease fittings for lubrication points in machinery and equipment.", features: ["Various types","Standard threads","Durable construction","Easy to install"], apps: "Machinery lubrication, automotive, industrial equipment, bearings." },
+        { id: 48, title: "Pneumatic Fittings",                    category: "general",     imageFront: "General Products/Pneumatic Fittings.jpeg",                          imageBack: "General Products/Pneumatic Fittings1.jpeg",                      desc: "Pneumatic fittings for air systems, automation, and pneumatic equipment.", features: ["Various types","Quick connect options","Pressure rated","Durable materials"], apps: "Pneumatic systems, automation, air lines, industrial equipment." }
+    ];
+
+    const grid        = document.getElementById('productGrid');
+    const searchInput = document.getElementById('searchInput');
+    const searchStats = document.getElementById('searchStats');
+    const modal       = document.getElementById('productModal');
+
+    let currentFilter      = 'all';
+    let currentSearchTerm  = '';
+    let currentProduct     = null;
+    let currentProductUrl  = "";
+
+    document.addEventListener('DOMContentLoaded', function () {
+        renderProducts();
+        setupEventListeners();
+    });
+
+    function setupEventListeners() {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.getAttribute('data-filter');
+                const sectionTitle = document.querySelector('.section-title');
+                if      (currentFilter === 'all')         sectionTitle.innerText = 'Industrial Products';
+                else if (currentFilter === 'specialized') sectionTitle.innerText = 'Specialized Products';
+                else if (currentFilter === 'general')     sectionTitle.innerText = 'General Products';
+                renderProducts();
+            });
+        });
+        searchInput.addEventListener('input', e => {
+            currentSearchTerm = e.target.value.toLowerCase().trim();
+            renderProducts();
+        });
+        searchInput.addEventListener('keydown', e => {
+            if (e.key === 'Escape') { searchInput.value = ''; currentSearchTerm = ''; renderProducts(); }
+        });
+    }
+
+    function renderProducts() {
+        let filtered = products.filter(p => {
+            const catMatch    = currentFilter === 'all' || p.category === currentFilter;
+            const searchMatch = currentSearchTerm === '' ||
+                p.title.toLowerCase().includes(currentSearchTerm) ||
+                p.desc.toLowerCase().includes(currentSearchTerm) ||
+                p.features.some(f => f.toLowerCase().includes(currentSearchTerm)) ||
+                p.apps.toLowerCase().includes(currentSearchTerm);
+            return catMatch && searchMatch;
+        });
+        updateSearchStats(filtered.length);
+        if (filtered.length === 0) displayNoProductsMessage();
+        else displayProducts(filtered);
+    }
+
+    function updateSearchStats(count) {
+        let msg = currentSearchTerm
+            ? (count === 0 ? `No products for "${currentSearchTerm}"` : `Found ${count} product${count !== 1 ? 's' : ''} for "${currentSearchTerm}"`)
+            : `Showing ${count} product${count !== 1 ? 's' : ''}`;
+        searchStats.innerText = msg;
+        searchStats.style.color = (count === 0 && currentSearchTerm) ? '#dc3545' : '#6c757d';
+    }
+
+    function displayNoProductsMessage() {
+        grid.innerHTML = `<div class="no-products-message">
+            <i class="fas fa-box-open" style="font-size:3rem; opacity:0.4;"></i>
+            <h3 style="margin:15px 0 5px;">No Products Found</h3>
+            <p style="color:#6c757d;">"${currentSearchTerm}" – try another keyword</p>
+            <button class="btn-discover" style="margin:25px auto 0;" onclick="clearSearch()">Clear Search</button>
+        </div>`;
+    }
+
+    function displayProducts(items) {
+        let html = '';
+        items.forEach(p => {
+            const catClass = p.category === 'specialized' ? 'cat-spec' : 'cat-gen';
+            const catName  = p.category === 'specialized' ? 'Specialized' : 'General';
+            const fallback = `https://via.placeholder.com/400x300/0f2e53/ffffff?text=${encodeURIComponent(p.title.substring(0, 15))}`;
+            html += `<div class="product-card" onclick="openModal(${p.id})">
+                <img src="${p.imageFront}" class="card-image" alt="${p.title}" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'">
+                <div class="card-body">
+                    <span class="card-category ${catClass}">${catName}</span>
+                    <h3 class="card-title">${p.title}</h3>
+                    <p class="card-text">${p.desc}</p>
+                    <button class="btn-discover" onclick="event.stopPropagation();openModal(${p.id})">View Details</button>
+                </div>
+            </div>`;
+        });
+        grid.innerHTML = html;
+    }
+
+    window.clearSearch = function () {
+        searchInput.value = ''; currentSearchTerm = '';
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+        currentFilter = 'all';
+        document.querySelector('.section-title').innerText = 'Industrial Products';
+        renderProducts();
+    };
+
+    window.requestQuote = function () {
+        if (!currentProduct) return;
+        window.location.href = `contact.html?product=${encodeURIComponent(currentProduct.title)}`;
+    };
+
+    window.openModal = function (id) {
+        currentProduct = products.find(p => p.id === id);
+        if (!currentProduct) return;
+        document.getElementById('modalTitle').innerText   = currentProduct.title;
+        document.getElementById('modalTag').innerText     = currentProduct.category.toUpperCase();
+        document.getElementById('modalDesc').innerText    = currentProduct.desc;
+        document.getElementById('modalApps').innerText    = currentProduct.apps;
+        const featureList = document.getElementById('modalFeatures');
+        featureList.innerHTML = '';
+        currentProduct.features.forEach(f => { let li = document.createElement('li'); li.innerText = f; featureList.appendChild(li); });
+        const imgFront = document.getElementById('modalImgFront');
+        const imgBack = document.getElementById('modalImgBack');
+        const fbFront  = `https://via.placeholder.com/700x520/0f2e53/ffffff?text=${encodeURIComponent(currentProduct.title.substring(0, 20))}`;
+        imgFront.src = currentProduct.imageFront + "?t=" + Date.now();
+        imgBack.src = currentProduct.imageBack + "?t=" + Date.now();
+        imgFront.onerror = function () { this.src = fbFront; };
+        const baseUrl = window.location.href.split('?')[0];
+        currentProductUrl = `${baseUrl}?product_id=${currentProduct.id}`;
+        const encoded = encodeURIComponent(currentProductUrl);
+        const titleEnc = encodeURIComponent(currentProduct.title);
+        document.getElementById('shareWa').href   = `https://api.whatsapp.com/send?text=${titleEnc}%0A${encoded}`;
+        document.getElementById('shareMail').href = `mailto:?subject=${titleEnc}&body=Check product: ${currentProductUrl}`;
+        document.getElementById('shareFb').href   = `https://www.facebook.com/sharer/sharer.php?u=${encoded}`;
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    };
+
+    window.closeModal = function () {
+        modal.classList.remove('open');
+        document.body.style.overflow = 'auto';
+    };
+
+    window.onclick = function (e) { if (e.target == modal) closeModal(); };
+
+    async function getBase64ImageSafe(imgUrl) {
+        try {
+            const response = await fetch(imgUrl, { mode: 'cors', cache: 'reload' });
+            if (!response.ok) throw new Error('fetch failed');
+            const blob = await response.blob();
+            return new Promise(resolve => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror  = () => resolve(null);
+                reader.readAsDataURL(blob);
+            });
+        } catch (e) { return null; }
+    }
+
+    window.downloadProductPDF = async function () {
+        if (!currentProduct) return;
+        const btn = document.getElementById('pdfBtn');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const margin = 20, pw = doc.internal.pageSize.getWidth(), cw = pw - margin * 2;
+        let y = 20;
+        try {
+            let imgData = null;
+            try { imgData = await getBase64ImageSafe(currentProduct.imageFront); } catch (e) {}
+            doc.setFontSize(22).setTextColor(15, 46, 83).text(currentProduct.title, margin, y); y += 12;
+            doc.setFontSize(12).setTextColor(220, 53, 69).text(`Category: ${currentProduct.category.toUpperCase()}`, margin, y); y += 15;
+            if (imgData) {
+                try {
+                    const props = doc.getImageProperties(imgData);
+                    let imgW = cw, imgH = (props.height * imgW) / props.width;
+                    const maxH = 80;
+                    if (imgH > maxH) { imgH = maxH; imgW = (props.width * maxH) / props.height; const xOff = margin + (cw - imgW) / 2; doc.addImage(imgData, 'JPEG', xOff, y, imgW, imgH); }
+                    else { doc.addImage(imgData, 'JPEG', margin, y, imgW, imgH); }
+                    y += imgH + 12;
+                } catch (e) { doc.setFontSize(10).setTextColor(150).text('(image format error)', margin, y); y += 10; }
+            } else { doc.setFontSize(10).setTextColor(150).text('(product image not available)', margin, y); y += 10; }
+            doc.setFontSize(14).setTextColor(0, 0, 0).text('Description:', margin, y); y += 8;
+            doc.setFontSize(11).setTextColor(60, 60, 60);
+            let descLines = doc.splitTextToSize(currentProduct.desc, cw);
+            doc.text(descLines, margin, y); y += (descLines.length * 5) + 10;
+            if (y > 230) { doc.addPage(); y = 20; }
+            doc.setFontSize(14).text('Key Features:', margin, y); y += 8;
+            doc.setFontSize(11);
+            currentProduct.features.forEach(f => { if (y > 270) { doc.addPage(); y = 20; } doc.text(`• ${f}`, margin, y); y += 6; });
+            y += 6;
+            if (y > 240) { doc.addPage(); y = 20; }
+            doc.setFontSize(14).text('Applications:', margin, y); y += 7;
+            let appLines = doc.splitTextToSize(currentProduct.apps, cw);
+            doc.setFontSize(11).text(appLines, margin, y);
+            for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
+                doc.setPage(i).setFontSize(9).setTextColor(150).text(`Page ${i} of ${doc.internal.getNumberOfPages()} – Crystal Dealing`, margin, doc.internal.pageSize.getHeight() - 10);
+            }
+            doc.save(`${currentProduct.title.replace(/\s+/g, '_')}_Specs.pdf`);
+        } catch (error) { showToast('PDF generation error, please try again'); console.error(error); }
+        finally { btn.innerHTML = original; }
+    };
+
+    function showToast(msg) {
+    const toast = document.getElementById("toast-msg");
+
+    toast.innerText = msg;
+
+    toast.style.display = "block";
+    toast.style.opacity = "1";
+    toast.style.visibility = "visible";
+
+    setTimeout(() => {
+        toast.style.display = "none";
+    }, 2000);
+}
+    window.copyLink = function () {
+        if (!currentProductUrl) return;
+        navigator.clipboard.writeText(currentProductUrl).then(() => showToast('✅ Link copied!')).catch(() => showToast('⚠️ Copy failed'));
+    };
+    window.shareToInsta = function (e) {
+        e.preventDefault();
+        if (!currentProductUrl) return;
+        navigator.clipboard.writeText(currentProductUrl).then(() => {
+            showToast('🔗 Link copied! Opening Instagram...');
+            setTimeout(() => window.open('https://instagram.com', '_blank'), 1000);
+        }).catch(() => showToast('Failed to copy'));
+    };
+    document.addEventListener("click", function(e){
+
+    const flipCard = document.getElementById("flipCard");
+
+    if(flipCard && e.target.closest("#flipCard")){
+        flipCard.classList.toggle("flipped");
+    }
+
+});
+
+</script>
+<script>
+const menuToggle = document.querySelector(".menu-toggle");
+const menu = document.querySelector(".menu");
+
+menuToggle.addEventListener("click", () => {
+    menu.classList.toggle("active");
+});
+function showToast(message){
+    const toast = document.getElementById("toast-msg");
+
+    toast.textContent = "✅ " + message;
+    toast.classList.add("show");
+
+    setTimeout(()=>{
+        toast.classList.remove("show");
+    },2000);
+}
+</script>
+<footer class="footer">
+
+<div class="container footer-grid">
+
+    <!-- COMPANY -->
+    <div class="footer-col">
+
+        <img src="pics/logo.png" alt="Diamond Bearing Logo" class="footer-logo">
+
+        <h2>DIAMOND BEARING</h2>
+
+        <p>
+            Providing premium industrial bearing solutions with
+            quality, reliability and performance for industries
+            across Saudi Arabia.
+        </p>
+
+    </div>
+
+    <!-- QUICK LINKS -->
+   
+<div class="footer-col">
+    <h3>Quick Links</h3>
+
+    <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+    </ul>
+</div>
+    <!-- PRODUCTS -->
+    <div class="footer-col">
+
+        <h3>Our Products</h3>
+
+        <ul>
+
+            <li>Deep Groove Ball Bearings</li>
+
+            <li>Spherical Roller Bearings</li>
+
+            <li>Taper Roller Bearings</li>
+
+            <li>Needle Roller Bearings</li>
+
+            <li>Thrust Bearings</li>
+
+        </ul>
+
+    </div>
+
+    <!-- CONTACT -->
+    <div class="footer-col">
+
+        <h3>Contact Info</h3>
+
+        <p>📞 +966 53 762 1246</p>
+        <p>📱 +966 53 638 5697</p>
+        <p>📧 info@diamondbearing.com</p>
+        <p>🌍 Saudi Arabia</p>
+        <p>📍 Al Jubail, Kingdom of Saudi Arabia</p>
+    </div>
+
+</div>
+
+<div class="footer-bottom">
+
+    <p>
+        © 2026 Diamond Bearing & All Rights Reserved / Developed by <strong>Credencer Technologies</strong>
+    </p>
+
+    <p class="developer-credit">
+       
+    </p>
+
+</div>
+
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+   // products javascript
+</script>
+
+</body>
+</html>

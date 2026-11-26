@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Diamond Bearing</title>
+  <link rel="stylesheet" href="styleheader.css">
+  <link rel="stylesheet" href="contact.css">
+  <link rel="stylesheet" href="footer.css"> <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" type="image/png" href="pics/favicon.png">
+<link rel="shortcut icon" href="pics/favicon.png">
+<link rel="apple-touch-icon" href="pics/favicon.png">
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="nav">
+      <a href="contact.html" class="logo">
+        <img src="pics/logo.png" alt="Diamond Bearing">
+        <div class="logo-text">
+          <h2>DIAMOND BEARING</h2>
+          <p>Precision In Motion</p>
+        </div>
+      </a>
+      <ul class="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+      <div class="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <section class="contact-hero-banner">
+    <div class="contact-slider-track">
+      <img src="pics/1.jpeg" class="slide active" alt="Slider BG 1">
+      <img src="pics/2.jpeg" class="slide" alt="Slider BG 2">
+      <img src="pics/3.jpeg" class="slide" alt="Slider BG 3">
+    </div>
+    <div class="contact-light-overlay"></div>
+    <div class="contact-hero-title-container">
+      <h1>CONTACT US</h1>
+    </div>
+  </section>
+
+  <section class="contact-form-section">
+    <div class="contact-main-grid">
+      
+      <div class="contact-visual-showcase">
+        <div class="circle-slider-frame">
+          <img src="./ChatGPT Image Feb 5, 2026, 01_49_50 PM copy.png" class="showcase-slide active">
+          <img src="./Customer support at your service.png" class="showcase-slide">
+          <img src="./Digital conversation with vibrant icons.png" class="showcase-slide">
+        </div>
+      </div>
+
+      <div class="form-container-card">
+        <div class="form-inner-content-mask">
+          <h2>Get In Touch</h2>
+          <p>Have questions about industrial spare parts or need a fast quote? Drop us a line below.</p>
+          
+          <form id="contactForm">
+            <div class="input-container">
+              <input placeholder=" " class="input-field" type="text" id="nameField" required>
+              <label for="nameField" class="input-label">Your Name</label>
+              <span class="input-highlight"></span>
+            </div>
+
+            <div class="input-container">
+              <input placeholder=" " class="input-field" type="email" id="emailField" autocomplete="email" required>
+              <label for="emailField" class="input-label">Your Email</label>
+              <span class="input-highlight"></span>
+            </div>
+
+            <div class="input-container">
+              <textarea placeholder=" " class="input-field textarea-field" id="messageField" rows="4" required></textarea>
+              <label for="messageField" class="input-label">Your Message</label>
+              <span class="input-highlight"></span>
+            </div>
+
+            <div class="button-wrapper">
+              <button type="submit" class="animated-submit-btn">
+                <span class="button-content">Submit</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      
+      <div class="footer-col">
+        <div class="brand-logo-glow-wrap">
+          <img src="pics/logo.png" alt="Diamond Bearing Logo" class="footer-logo">
+        </div>
+        <div class="footer-company-name">DIAMOND BEARING</div>
+        <p class="footer-company-text">Providing premium industrial bearing solutions with quality, reliability and performance for industries across Saudi Arabia.</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Our Products</h3>
+        <ul class="product-list">
+          <li>Deep Groove Ball Bearings</li>
+          <li>Spherical Roller Bearings</li>
+          <li>Taper Roller Bearings</li>
+          <li>Needle Roller Bearings</li>
+          <li>Thrust Bearings</li>
+        </ul>
+      </div>
+
+      <div class="footer-col contact-info">
+        <h3>Contact Info</h3>
+        <p><i class="fas fa-phone"></i> +966 53 762 1246</p>
+        <p><i class="fas fa-mobile-alt"></i> +966 53 638 5697</p>
+        <p><i class="fas fa-envelope"></i> info@diamondbearing.com</p>
+        <p><i class="fas fa-globe"></i> Saudi Arabia</p>
+        <p><i class="fas fa-map-marker-alt"></i> Al Jubail, Kingdom of Saudi Arabia</p>
+      </div>
+
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2026 <span class="brand-highlight">Diamond Bearing</span> & All Rights Reserved / Developed by <strong>Credencer Technologies</strong></p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      /* ── HERO HEADER BACKGROUND CAROUSEL ── */
+      const heroSlides = document.querySelectorAll('.contact-slider-track .slide');
+      let heroIdx = 0;
+      if (heroSlides.length > 0) {
+        setInterval(() => {
+          heroSlides[heroIdx].classList.remove('active');
+          heroIdx = (heroIdx + 1) % heroSlides.length;
+          heroSlides[heroIdx].classList.add('active');
+        }, 4000);
+      }
+
+      /* ── CIRCULAR SHOWCASE IMAGE SLIDER ENGINE ── */
+      const showcaseSlides = document.querySelectorAll('.circle-slider-frame .showcase-slide');
+      let showcaseIdx = 0;
+      if (showcaseSlides.length > 0) {
+        setInterval(() => {
+          showcaseSlides[showcaseIdx].classList.remove('active');
+          showcaseIdx = (showcaseIdx + 1) % showcaseSlides.length;
+          showcaseSlides[showcaseIdx].classList.add('active');
+        }, 3000);
+      }
+
+      /* ── WHATSAPP SUBMISSION LAYER HANDLER ── */
+      const contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const name = document.getElementById('nameField').value;
+          const email = document.getElementById('emailField').value;
+          const message = document.getElementById('messageField').value;
+          
+          const textString = encodeURIComponent(`Inquiry Details: ⚡\n\nName: ${name}\nEmail: ${email}\n\nMessage: ${message}`);
+          window.location.href = `https://wa.me/966537621246?text=${textString}`;
+          this.reset();
+        });
+      }
+
+      /* ── AUTOFILL CAPTURES FROM PRODUCTS REDIRECTS ── */
+      const urlProductParam = new URLSearchParams(window.location.search).get('product');
+      if (urlProductParam) {
+        const textareaElement = document.getElementById('messageField');
+        if (textareaElement) {
+          textareaElement.value = `Inquiry regarding specific item: ${decodeURIComponent(urlProductParam)}\n\n`;
+          textareaElement.focus();
+        }
+      }
+
+      /* ── MOBILE HEADER TOGGLE NAV DRAWER ── */
+      const menuToggle = document.querySelector(".menu-toggle");
+      const menu = document.querySelector(".menu");
+      if (menuToggle && menu) {
+        menuToggle.addEventListener("click", () => {
+          menu.classList.toggle("active");
+        });
+      }
+    });
+  </script>
+</body>
+</html>
